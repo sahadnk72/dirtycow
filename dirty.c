@@ -86,12 +86,13 @@ int main(int argc, char *argv[])
 {
   char *suid_file;
   
-  if (argc >= 2) {
-    suid_file = argv[1];
-  } else {
-    printf("Enter the path to SUID binary:\n");
-    scanf("%s", suid_file);
+  if (argc < 2) {
+    printf("Please provide the path to suid binary as an argument!\n");
+    exit(1);
   }
+  
+  suid_file = argv[1];
+  
   // backup file
   int ret = copy_file(suid_file, backup_filename);
   if (ret != 0) {
