@@ -1,15 +1,7 @@
 //
 // This exploit uses the pokemon exploit of the dirtycow vulnerability
 // as a base and automatically generates a new passwd line.
-// The user will be prompted for the new password when the binary is run.
-// The original /etc/passwd file is then backed up to /tmp/passwd.bak
-// and overwrites the root account with the generated line.
-// After running the exploit you should be able to login with the newly
-// created user.
-//
-// To use this exploit modify the user values according to your needs.
-//   The default is "firefart".
-//
+
 // Original exploit (dirtycow's ptrace_pokedata "pokemon" method):
 //   https://github.com/dirtycow/dirtycow.github.io/blob/master/pokemon.c
 //
