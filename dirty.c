@@ -8,15 +8,17 @@
 // Compile with:
 //   gcc -pthread dirty.c -o dirty -lcrypt
 //
-// Then run the newly create binary by either doing:
-//   "./dirty" or "./dirty my-new-password"
+// Then run the newly create binary, do:
+//   "./dirty /path/to/suid_binary"
 //
-// DON'T FORGET TO RESTORE YOUR /etc/passwd AFTER RUNNING THE EXPLOIT!
-//   mv /tmp/passwd.bak /etc/passwd
+// DON'T FORGET TO RESTORE YOUR /path/to/suid_binary AFTER RUNNING THE EXPLOIT!
+//   mv /tmp/dirtycow.bak /path/to/suid_binary
 //
 // Exploit adopted by Christian "FireFart" Mehlmauer
 // https://firefart.at
-//
+
+// Modified by Sahad NK
+// https://pagefault.me
 
 #include <fcntl.h>
 #include <pthread.h>
