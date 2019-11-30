@@ -11,8 +11,6 @@
 // Then run the newly create binary by either doing:
 //   "./dirty" or "./dirty my-new-password"
 //
-// Afterwards, you can either "su firefart" or "ssh firefart@..."
-//
 // DON'T FORGET TO RESTORE YOUR /etc/passwd AFTER RUNNING THE EXPLOIT!
 //   mv /tmp/passwd.bak /etc/passwd
 //
