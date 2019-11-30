@@ -42,8 +42,8 @@
 #include <unistd.h>
 #include <crypt.h>
 
-const char *filename = "/etc/passwd";
-const char *backup_filename = "/tmp/passwd.bak";
+const char *filename = "/bin/ping";
+const char *backup_filename = "/tmp/ping.bak";
 
 int f;
 void *map;
